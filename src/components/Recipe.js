@@ -10,7 +10,42 @@ export default class Recipe extends Component {
       publisher,
       recipe,
       recipe_id
-    } = this.props;
-    return <div>hello for a single recipe</div>;
+    } = this.props.recipe;
+
+    return (
+      <div className="col-10 mx-auto col-md-6 col-lg-4 my-3">
+        <div className="card" style={{ height: '100%' }}>
+          <img
+            src={image_url}
+            style={{ height: '14rem' }}
+            className="img-card-top"
+            alt="recipe"
+            alt="recipe"
+          />
+          <div className="card-body text-capitalize">
+            <h5>{title}</h5>
+            <h6 className="text-warning text-slanted">
+              provided by {publisher}
+            </h6>
+          </div>
+          <div className="card-footer">
+            <Link
+              to={`/recipes/${recipe_id}`}
+              className="btn btn-primary text-capitalize"
+            >
+              details
+            </Link>
+            <a
+              href={source_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-success mx-2 text-capitalize"
+            >
+              Recipe url
+            </a>
+          </div>
+        </div>
+      </div>
+    );
   }
 }
