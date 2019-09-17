@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { recipeData } from '../data/tempDetails';
+// import { recipeData } from '../data/tempDetails';
 import { Link } from 'react-router-dom';
 
 export default class SingleRecipe extends Component {
@@ -9,12 +9,29 @@ export default class SingleRecipe extends Component {
     const id = this.props.match.params.id;
 
     this.state = {
-      recipe: recipeData,
+      // recipe: recipeData,
+      recipe: {},
       id,
-      loading: false
+      loading: true
     };
   }
+  /* ==== Live cycle method ==== */
+  async componentDidMount() {
+    const url = `https://www.food2fork.com/api/get?key=${process.env.REACT_APP_API_KEY}&rId=${this.state.id}`;
 
+    try {
+      const response = await fetch(url);
+      const responseData = await response.json();
+      // console.log(responseData);
+      this.setState({
+        recipe: responseData.recipe,
+        loading: false
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  /* ==== End of live cycle method ==== */
   render() {
     const {
       image_url,
@@ -44,7 +61,7 @@ export default class SingleRecipe extends Component {
           <div className="col-10 mx-auto col-md-6 my-3">
             <Link
               to="/recipes"
-              className="btn btn-warning mb-5 text-capitalize"
+              className="btn btn-warning mb-5 pt-2 text-capitalize"
             >
               back to recipes list
             </Link>
@@ -65,7 +82,7 @@ export default class SingleRecipe extends Component {
               href={publisher_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn btn-primary mt-2 textcapitalize"
+              className="btn btn-primary mt-2 pt-2 textcapitalize"
             >
               publisher webpage
             </a>
@@ -73,7 +90,7 @@ export default class SingleRecipe extends Component {
               href={source_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn btn-success mt-2 mx-2 textcapitalize"
+              className="btn btn-success mt-2 mx-2 pt-2 textcapitalize"
             >
               recipe original url
             </a>
@@ -83,7 +100,7 @@ export default class SingleRecipe extends Component {
               {/* loop through an array of ingredients using .map */}
               {ingredients.map((item, index) => {
                 return (
-                  <li key={index} className="list-group-item text-slanted">
+                  <li key={index} className="list-group-item">
                     {item}
                   </li>
                 );
