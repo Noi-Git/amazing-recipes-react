@@ -12,7 +12,10 @@ export default class Recipes extends Component {
     recipes: recipeData, // will get back the array
     search: '', // holding current value when type in the search form
     // ==== make ajax request for serach ====
-    url: `https://www.food2fork.com/api/search?key=${process.env.REACT_APP_API_KEY}`
+    url: `https://www.food2fork.com/api/search?key=${process.env.REACT_APP_API_KEY}`,
+    base_url: `https://www.food2fork.com/api/search?key=${process.env.REACT_APP_API_KEY}`,
+    query: '&q=',
+    error: ''
   };
 
   async getRecipes() {
@@ -20,9 +23,18 @@ export default class Recipes extends Component {
       const data = await fetch(this.state.url);
       const jsonData = await data.json();
       console.log(jsonData);
-      this.setState({
-        recipes: jsonData.recipes
-      });
+
+      if (jsonData.recipes.length === 0) {
+        this.setState({
+          error:
+            "Your search doesn't match any recipe we have. Press search icon to find the most popular recipes"
+        });
+      } else {
+        this.setState({
+          recipes: jsonData.recipes,
+          error: ''
+        });
+      }
     } catch (error) {
       console.log(error);
     }
@@ -42,18 +54,38 @@ export default class Recipes extends Component {
   handleSubmit = e => {
     // prevent the page to refresh all the time
     e.preventDefault();
+    const { base_url, query, search } = this.state;
+    this.setState(
+      {
+        url: `${base_url}${query}${search}`,
+        search: ''
+      },
+      () => this.getRecipes()
+    );
   };
 
   render() {
     return (
-      <>
+      <div>
         <Search
           search={this.state.search}
           handleChange={this.handleChange}
           handleSubmit={this.handleSubmit}
         />
-        <RecipeList recipes={this.state.recipes} />
-      </>
+        {this.state.error ? (
+          <section>
+            <div className="row">
+              <div className="col">
+                <h2 className="text-orange text-center text-uppercase mt-5 container">
+                  {this.state.error}
+                </h2>
+              </div>
+            </div>
+          </section>
+        ) : (
+          <RecipeList recipes={this.state.recipes} />
+        )}
+      </div>
     );
   }
 }
