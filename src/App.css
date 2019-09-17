@@ -1,6 +1,8 @@
 /* bg: #fcf9ea;
 ligth-green: #badfdb;
-dark-green: #49beb7; */
+dark-green: #49beb7; 
+Netlify: heuristic-bell-2b57b3
+*/
 body {
   font-family: 'Chilanka', cursive !important;
   color: #584b42 !important;
@@ -14,6 +16,34 @@ body {
   color: #ff8a5c;
 }
 
+.text-light-green {
+  color: #badfdb;
+}
+
+.text-dark-green {
+  color: #49beb7;
+}
+
 .letter-spacing {
   letter-spacing: 0.5rem;
+}
+
+.letter-spacing-sm {
+  letter-spacing: 0.2rem;
+}
+
+.navbar-bg {
+  background-color: #420000;
+}
+
+.header-hero {
+  min-height: calc(100vh - 56px);
+  background: linear-gradient(rgba(53, 26, 18, 0.3), rgba(53, 26, 18, 0.3)),
+    url('./images/jakub-kapusnak-tEVisOXz26Y-unsplash.jpg') center/cover
+      no-repeat;
+}
+
+.default-hero {
+  min-height: calc(100vh - 56px);
+  background-color: #49beb7;
 }
