@@ -74,9 +74,9 @@ export default class Recipes extends Component {
         />
         {this.state.error ? (
           <section>
-            <div className="row">
-              <div className="col">
-                <h2 className="text-orange text-center text-uppercase mt-5 container">
+            <div className="row justify-content-center">
+              <div className="col-8">
+                <h2 className="text-orange text-center text-uppercase mt-5">
                   {this.state.error}
                 </h2>
               </div>
